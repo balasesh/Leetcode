@@ -1,28 +1,29 @@
 class Solution(object):
     def restaurant_recommendations(self, friends_list, restaurants_map):
         final_map = {}
+        all_recommendations = set()
         for group in friends_list:
-            all_recommendations = ()
-            # flatten the map to get all the recommendations
+            # clear recommendations in the start for every group
+            all_recommendations.clear()
+            # store all recommendations in a set for every friend group
             for friend in group :
-                restaurants =  restaurants_map.get(friend)
-                for r in restaurants:
-                    all_recommendations += tuple(r)
-            # end
+                all_recommendations.update(set(restaurants_map.get(friend)))
+            # loop though the recommendations and get the ones the current friend has not visited
             for friend in group:
-                temp = []
-                # temp_set = all_recommendations
+                temp = set()
                 for a in all_recommendations:
                     if a not in  restaurants_map.get(friend):
-                        temp.append(a)
+                        temp.add(a)
+                # if friend in multiple group we will need all recommendations
                 if friend in final_map:
                     existing_friend_recommendation = final_map.get(friend)
                     for e in existing_friend_recommendation:
                         if e not in temp:
-                            temp.append(e)
-                    final_map[friend] = sorted(list(set(temp)))
+                            temp.add(e)
+                    # sorted was not necessary, Added it for manual comparisons
+                    final_map[friend] = sorted(list(temp))
                 else:
-                    final_map[friend] = sorted(list(set(temp)))
+                    final_map[friend] = sorted(list(temp))
         return final_map
 
 
