@@ -14,7 +14,7 @@ def lengthOfLongestSubstring(str):
     for c in list(str):
         if (c in test):
             test = test[test.index(c) + 1:]
-        test = test + "".join(c)
+        test += "".join(c)
         maxLength = max(len(test), maxLength)
     return maxLength
 
